@@ -15,6 +15,10 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
   const server = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    cors: {
+      origin: "*",
+      credentials: true,
+    },
   });
 
   // Start the server
