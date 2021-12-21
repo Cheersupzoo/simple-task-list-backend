@@ -19,6 +19,7 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
       origin: "*",
       credentials: true,
     },
+    introspection: true
   });
 
   // Start the server
