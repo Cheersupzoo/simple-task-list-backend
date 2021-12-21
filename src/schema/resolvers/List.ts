@@ -1,5 +1,3 @@
-import { UserInputError } from "apollo-server";
-import { nanoid } from "nanoid";
 import {
   Arg,
   FieldResolver,
@@ -9,7 +7,7 @@ import {
   ResolverInterface,
   Root,
 } from "type-graphql";
-import { Database } from "../../service/database";
+import { Database } from "../../service/Database";
 import { createMockList } from "../../service/MockData";
 import {
   AddListInput,
