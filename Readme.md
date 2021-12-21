@@ -1,5 +1,5 @@
 # Simple Todo List Backend
-A simple todo list backend running on Node.js to showcase API with GraphQL. The data is stored on PostgreSQL and connected with Prisma. The code is written on Typescript and using TypeGraphQL for making GraphQL schema.
+A simple todo list backend running on Node.js to showcase APIs with GraphQL. The data is stored in PostgreSQL and connected with Prisma. The code is written on Typescript and using TypeGraphQL for making GraphQL schema. Finally, an integration test is implemented with JEST.
 
 ## Demo GraphQL Playground
 [<img width="120" src="./assets/GraphQLPlaygroundButton.png"/>](https://simple-todo-list-999.herokuapp.com/)
@@ -32,11 +32,13 @@ npm start
   Navigate to `http://localhost:4000` for GraphQL Playground
 
 - Lint the project
+> using TSlint for linting
 ```
 npm run lint
 ```
 
 - Test the project
+> using JEST for testing
 ```
 npm run test
 ```

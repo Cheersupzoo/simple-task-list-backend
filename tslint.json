@@ -9,5 +9,6 @@
     "member-ordering": false,
     "curly": false
   },
-  "rulesDirectory": []
+  "rulesDirectory": [],
+  "linterOptions": { "exclude": ["src/**/*.test.ts"] }
 }
