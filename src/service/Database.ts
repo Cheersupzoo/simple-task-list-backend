@@ -7,42 +7,40 @@ import Task from "../schema/types/Task";
 
 export class Database {
   private static prisma = new PrismaClient();
-  static async getLists(): Promise<List[]> {
-    return (await Database.prisma.list.findMany({})).map((e) =>
-      List.defaultList({ id: e.id, title: e.title })
-    );
+  public static async getLists(): Promise<List[]> {
+    return (await Database.prisma.list.findMany({})).map((e) => List.defaultList({ id: e.id, title: e.title }));
   }
 
-  static async getList(id: string): Promise<List> {
+  public static async getList(id: string): Promise<List> {
     const list = await Database.prisma.list.findUnique({
-      where: { id: id },
+      where: { id },
     });
     if (list === null) throw new UserInputError("List not exits");
     return List.defaultList({ id: list.id, title: list.title });
   }
 
-  static async addList({ title }: Partial<List>): Promise<List[]> {
-    await Database.prisma.list.create({
+  public static async addList({ title }: Partial<List>): Promise<List> {
+    const response = await Database.prisma.list.create({
       data: {
         id: nanoid(10),
         title,
       },
     });
-    return await Database.getLists();
+    return await Database.getList(response.id);
   }
 
-  static async updateList({ id, title }: Partial<List>): Promise<List> {
+  public static async updateList({ id, title }: Partial<List>): Promise<List> {
     await Database.isListIDExist(id);
     await Database.prisma.list.update({
       where: {
-        id: id,
+        id,
       },
-      data: { title: title },
+      data: { title },
     });
     return await Database.getList(id);
   }
 
-  static async removeList({ id }: Partial<List>): Promise<List[]> {
+  public static async removeList({ id }: Partial<List>): Promise<List[]> {
     await Database.isListIDExist(id);
     await Database.prisma.task.deleteMany({
       where: {
@@ -51,13 +49,13 @@ export class Database {
     });
     await Database.prisma.list.delete({
       where: {
-        id: id,
+        id,
       },
     });
     return await Database.getLists();
   }
 
-  static async getTaskByListId(listId: string): Promise<Task[]> {
+  public static async getTasksByListId(listId: string): Promise<Task[]> {
     return await Database.prisma.task.findMany({
       where: {
         listId: {
@@ -68,35 +66,33 @@ export class Database {
     });
   }
 
-  static async addTask({ listId, title }: Partial<Task>): Promise<List> {
+  public static async addTask({ listId, title }: Partial<Task>): Promise<Task> {
     await Database.isListIDExist(listId);
 
-    var length = await Database.prisma.task.count({
+    const length = await Database.prisma.task.count({
       where: {
         listId,
       },
     });
 
-    await Database.prisma.task.create({
+    const response = await Database.prisma.task.create({
       data: { id: nanoid(10), title, listId, order: length },
     });
 
-    return await Database.getList(listId);
+    return await Database.prisma.task.findUnique({
+      where: {
+        id: response.id,
+      },
+    });
   }
 
-  static async updateTask({
-    listId,
-    id,
-    title,
-    completed,
-    order,
-  }: UpdateTaskInput): Promise<List> {
+  public static async updateTask({ listId, id, title, completed, order }: UpdateTaskInput): Promise<List> {
     await Database.isListIDExist(listId);
     await Database.isTaskIDExist(id);
 
     await Database.prisma.task.update({
       where: {
-        id: id,
+        id,
       },
       data: {
         title,
@@ -105,19 +101,18 @@ export class Database {
     });
 
     if (order !== undefined) {
-      var length = await Database.prisma.task.count({
+      const length = await Database.prisma.task.count({
         where: {
-          listId: listId,
+          listId,
         },
       });
 
-      if (order < 0 || order >= length)
-        throw new UserInputError("Order out of range");
+      if (order < 0 || order >= length) throw new UserInputError("Order out of range");
 
       const oldOrder = (
         await Database.prisma.task.findUnique({
           where: {
-            id: id,
+            id,
           },
           select: { order: true },
         })
@@ -125,10 +120,10 @@ export class Database {
 
       await Database.prisma.task.update({
         where: {
-          id: id,
+          id,
         },
         data: {
-          order: order,
+          order,
         },
       });
 
@@ -172,7 +167,7 @@ export class Database {
     return await Database.getList(listId);
   }
 
-  static async removeTask({ listId, id }: Partial<Task>): Promise<List> {
+  public static async removeTask({ listId, id }: Partial<Task>): Promise<List> {
     await Database.isListIDExist(listId);
     await Database.isTaskIDExist(id);
 
@@ -183,7 +178,7 @@ export class Database {
   private static async isListIDExist(id: string) {
     const length = await Database.prisma.list.count({
       where: {
-        id: id,
+        id,
       },
     });
     if (length === 0) throw new UserInputError("List not exists");
@@ -192,7 +187,7 @@ export class Database {
   private static async isTaskIDExist(id: string) {
     const length = await Database.prisma.task.count({
       where: {
-        id: id,
+        id,
       },
     });
     if (length === 0) throw new UserInputError("Task not exists");

@@ -3,7 +3,7 @@ import { Field, ID, Int, ObjectType } from "type-graphql";
 
 @ObjectType({ description: "Task title with complete status" })
 class Task {
-  static defaultTask(task?: Partial<Task>) {
+  public static defaultTask(task?: Partial<Task>) {
     return Object.assign(new Task(), {
       id: task.id ?? nanoid(10),
       title: task.title ?? "",
@@ -14,19 +14,19 @@ class Task {
   }
 
   @Field((type) => ID)
-  id: string;
+  public id: string;
 
   @Field()
-  title: string;
+  public title: string;
 
   @Field()
-  completed: boolean;
+  public completed: boolean;
 
   @Field((type) => Int)
-  order: number;
+  public order: number;
 
   @Field()
-  listId: string;
+  public listId: string;
 }
 
 export default Task;

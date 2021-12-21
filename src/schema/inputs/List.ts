@@ -5,56 +5,56 @@ import Task from "../types/Task";
 @InputType()
 export class AddListInput implements Partial<List> {
   @Field()
-  title: string;
+  public title: string;
 }
 
 @InputType()
 export class RemoveListInput implements Partial<List> {
   @Field((type) => ID)
-  id: string;
+  public id: string;
 }
 
 @InputType()
 export class UpdateListInput implements Partial<List> {
   @Field((type) => ID)
-  id: string;
+  public id: string;
 
   @Field()
-  title: string;
+  public title: string;
 }
 
 @InputType()
 export class AddTaskInput implements Partial<Task> {
   @Field()
-  listId: string;
+  public listId: string;
 
   @Field()
-  title: string;
+  public title: string;
 }
 
 @InputType()
 export class UpdateTaskInput implements Partial<Task> {
   @Field((type) => ID)
-  id: string;
+  public id: string;
 
   @Field()
-  listId: string;
+  public listId: string;
 
   @Field({ nullable: true })
-  title?: string;
+  public title?: string;
 
   @Field({ nullable: true })
-  completed?: boolean;
+  public completed?: boolean;
 
-  @Field(type => Int,{ nullable: true })
-  order?: number;
+  @Field((type) => Int, { nullable: true })
+  public order?: number;
 }
 
 @InputType()
 export class RemoveTaskInput implements Partial<Task> {
   @Field()
-  listId: string;
+  public listId: string;
 
   @Field()
-  id: string;
+  public id: string;
 }

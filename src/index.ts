@@ -19,10 +19,11 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
       origin: "*",
       credentials: true,
     },
-    introspection: true
+    introspection: true,
   });
 
   // Start the server
   const { url } = await server.listen(process.env.PORT || 4000);
+  /* tslint:disable-next-line */
   console.log(`Server is running, GraphQL Playground available at ${url}`);
 })();

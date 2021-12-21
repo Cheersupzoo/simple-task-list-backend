@@ -4,20 +4,20 @@ import Task from "./Task";
 
 @ObjectType({ description: "List of Task" })
 class List {
-  static defaultList(list: Partial<List>) {
+  public static defaultList(list: Partial<List>) {
     return Object.assign(new List(), {
       id: list.id ?? nanoid(10),
-      title: list.title ?? ""
+      title: list.title ?? "",
     });
   }
   @Field((type) => ID)
-  id: string;
+  public id: string;
 
   @Field()
-  title: string;
+  public title: string;
 
   @Field((type) => [Task])
-  tasks: Task[];
+  public tasks: Task[];
 }
 
 export default List;
