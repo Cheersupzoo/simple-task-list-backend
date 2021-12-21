@@ -86,7 +86,7 @@ export class Database {
     });
   }
 
-  public static async updateTask({ listId, id, title, completed, order }: UpdateTaskInput): Promise<List> {
+  public static async updateTask({ listId, id, title, completed, order }: UpdateTaskInput): Promise<Task> {
     await Database.isListIDExist(listId);
     await Database.isTaskIDExist(id);
 
@@ -164,14 +164,30 @@ export class Database {
       });
     }
 
-    return await Database.getList(listId);
+    return (await Database.getTasksByListId(listId)).find((task) => task.id === id);
   }
 
   public static async removeTask({ listId, id }: Partial<Task>): Promise<List> {
     await Database.isListIDExist(listId);
     await Database.isTaskIDExist(id);
 
-    await Database.prisma.task.delete({ where: { id } });
+    const task = await Database.prisma.task.delete({ where: { id } });
+
+    // change order
+    await Database.prisma.task.updateMany({
+      where: {
+        listId: { equals: listId },
+        AND: {
+          order: { gte: task.order },
+        },
+      },
+      data: {
+        order: {
+          decrement: 1,
+        },
+      },
+    });
+
     return await Database.getList(listId);
   }
 

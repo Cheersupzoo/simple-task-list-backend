@@ -55,8 +55,8 @@ export class ListResolver implements ResolverInterface<List> {
     return await Database.addTask({ listId, title });
   }
 
-  @Mutation((returns) => List)
-  public async updateTask(@Arg("input") { listId, id, title, completed, order }: UpdateTaskInput): Promise<List> {
+  @Mutation((returns) => Task)
+  public async updateTask(@Arg("input") { listId, id, title, completed, order }: UpdateTaskInput): Promise<Task> {
     return await Database.updateTask({ listId, id, title, completed, order });
   }
 

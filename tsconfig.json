@@ -9,5 +9,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "lib": ["es2018", "esnext.asynciterable"]
+  "lib": ["es2018", "esnext.asynciterable"],
+  "exclude": ["src/**/*.test.ts"]
 }
