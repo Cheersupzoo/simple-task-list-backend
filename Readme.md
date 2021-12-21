@@ -5,8 +5,8 @@ A simple todo list backend running on Node.js to showcase APIs with GraphQL. The
 [<img width="120" src="./assets/GraphQLPlaygroundButton.png"/>](https://simple-todo-list-999.herokuapp.com/)
 
 # Pre-requisites
-- Install [Node.js](https://nodejs.org/en/) version 14
-- PostgreSQL (for storage)
+- Install [Node.js](https://nodejs.org/en/) version 14 or newer
+- Prepare PostgreSQL database (for storage)
   
 
 # Getting started
@@ -19,7 +19,7 @@ git clone https://github.com/Cheersupzoo/simple-task-list-backend.git
 cd simple-task-list-backend
 npm install
 ```
-- Setup environment variable for database (may create ".env" file on root of project folder)
+- Setup environment variable for database (may create `.env` file in root of project folder)
 ```
 DATABASE_URL="postgres://{username}:{password}}@{databaseUrl}/{database}"
 ```
