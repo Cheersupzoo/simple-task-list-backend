@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model List {
+  id    String @id(map: "list_pk") @unique(map: "list_id_uindex") @db.VarChar(10)
+  title String @db.VarChar(255)
+  Task  Task[]
+}
+
+model Task {
+  id        String  @id(map: "task_pk") @unique(map: "task_id_uindex") @db.VarChar(10)
+  title     String  @db.VarChar(255)
+  completed Boolean @default(false)
+  order     Int     @default(0)
+  listId    String  @db.VarChar(10)
+  List      List    @relation(fields: [listId], references: [id], onDelete: Cascade, map: "listIdKey")
+}
